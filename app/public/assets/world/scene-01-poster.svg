@@ -10,8 +10,7 @@
   </defs>
   <rect width="1920" height="1080" fill="url(#glow)"/>
   <rect width="1920" height="1080" fill="url(#grid)"/>
-  <g transform="translate(1180,930) scale(1.02,-1.02)">
-    <path d="M268 -11Q188 -5 133.0 26.0Q78 57 43 105L115 174Q149 133 187.0 110.5Q225 88 273 83V312L250 316Q200 325 165.0 343.0Q130 361 108.0 387.0Q86 413 76.0 444.5Q66 476 66 512Q66 597 119.0 647.5Q172 698 268 708V811H352V708Q418 701 466.0 675.0Q514 649 549 604L476 538Q452 569 420.5 588.0Q389 607 347 612V400L374 396Q424 387 459.0 369.0Q494 351 516.5 325.5Q539 300 549.0 268.0Q559 236 559 200Q559 114 505.5 59.0Q452 4 352 -8V-113H268ZM172 515Q172 473 195.5 449.5Q219 426 273 414V614Q172 602 172 515ZM453 195Q453 240 428.5 263.5Q404 287 347 298V84Q399 92 426.0 120.0Q453 148 453 195Z" fill="none" stroke="#E2672A" stroke-opacity=".55" stroke-width="5"/>
-  </g>
-  <rect x="1790" y="900" width="96" height="16" fill="#E2672A" fill-opacity=".8"/>
+  <!-- terminal prompt ">_": chevron + cursor -->
+  <path d="M1200 340L1440 540L1200 740" fill="none" stroke="#E2672A" stroke-opacity=".5" stroke-width="52" stroke-linecap="round" stroke-linejoin="round"/>
+  <rect x="1490" y="714" width="190" height="52" rx="6" fill="#E2672A" fill-opacity=".85"/>
 </svg>

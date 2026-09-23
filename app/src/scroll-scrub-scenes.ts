@@ -3,9 +3,9 @@
  *
  * FILM PENDING: the owner will supply their own film. Until then every scene's
  * `clip` is empty, so the engine never fetches and the poster (a vector
- * backdrop built from the brand's own `$` glyph) holds the stage, zoomed
+ * backdrop with a terminal prompt `>_`) holds the stage, zoomed
  * gently by scroll progress (see `.gs-site .scroll-scrub__poster` in
- * styles.css).
+ * site.css).
  *
  * When the film arrives:
  *   1. Put the encoded clip at public/assets/world/scene-01.mp4 (and an
@@ -32,42 +32,49 @@ export const scrollScrubTheme: ScrollScrubTheme = {
 };
 
 const backdrop = "/assets/world/scene-01-poster.svg";
+const mobileBackdrop = "/assets/world/scene-01-mobile-poster.svg";
 
 export const scrollScrubScenes: ScrollScrubScene[] = [
   {
     id: "inicio",
     label: "Inicio",
-    kicker: "$ whoami",
+    kicker: "> whoami",
     title: "La herramienta correcta, no la más compleja.",
     body: "Soy Gonzalo Argüello, desarrollador full stack. Ayudo a startups, empresas y equipos técnicos a llevar ideas web a producción.",
     clip: "",
     poster: backdrop,
-    mobileObjectPosition: "80% 50%",
+    objectPosition: "75% 50%",
+    mobilePoster: mobileBackdrop,
+    mobileObjectPosition: "50% 50%",
     scroll: 1.4,
   },
   {
     id: "criterio",
     label: "Criterio",
-    kicker: "$ evaluar proceso-interno",
+    kicker: "> evaluar proceso-interno",
     title: "Primero el problema. Después la herramienta.",
     body: "A veces hace falta software a medida. A veces alcanza con Google Forms y Sheets. Lo decide el análisis, no la costumbre.",
     tags: ["javascript", "html/css", "wix + código propio", "google apps script"],
     clip: "",
     poster: backdrop,
-    mobileObjectPosition: "80% 50%",
+    objectPosition: "75% 50%",
+    mobilePoster: mobileBackdrop,
+    mobileObjectPosition: "50% 50%",
     align: "right",
     scroll: 1.3,
   },
   {
     id: "enfoque",
     label: "Servicios",
-    kicker: "$ ls servicios/",
+    kicker: "> ls servicios/",
     title: "Tres formas de trabajar conmigo.",
     body: "Construyo a medida, asesoro en decisiones técnicas o te ofrezco herramientas propias listas para usar.",
     tags: ["desarrollo a medida", "consultoría técnica", "productos propios"],
     clip: "",
     poster: backdrop,
-    mobileObjectPosition: "80% 50%",
+    objectPosition: "75% 50%",
+    mobilePoster: mobileBackdrop,
+    mobileObjectPosition: "50% 50%",
     scroll: 1.2,
   },
 ];

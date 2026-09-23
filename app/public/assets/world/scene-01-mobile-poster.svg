@@ -1,0 +1,16 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1920" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <radialGradient id="glow" cx="55%" cy="22%" r="70%">
+      <stop offset="0" stop-color="#24506B"/>
+      <stop offset="1" stop-color="#10222E"/>
+    </radialGradient>
+    <pattern id="grid" width="48" height="48" patternUnits="userSpaceOnUse">
+      <path d="M48 0H0V48" fill="none" stroke="#6FA8D4" stroke-opacity=".07" stroke-width="1"/>
+    </pattern>
+  </defs>
+  <rect width="1080" height="1920" fill="url(#glow)"/>
+  <rect width="1080" height="1920" fill="url(#grid)"/>
+  <!-- terminal prompt ">_" in the upper third, clear of the chapter copy below -->
+  <path d="M330 350L570 550L330 750" fill="none" stroke="#E2672A" stroke-opacity=".5" stroke-width="52" stroke-linecap="round" stroke-linejoin="round"/>
+  <rect x="620" y="724" width="190" height="52" rx="6" fill="#E2672A" fill-opacity=".85"/>
+</svg>
