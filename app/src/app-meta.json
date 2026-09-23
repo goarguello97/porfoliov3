@@ -1,8 +1,8 @@
 {
-  "og_title": null,
-  "og_description": null,
-  "og_image_url": null,
-  "favicon_url": null,
+  "og_title": "Gonzalo Argüello · Desarrollo full stack",
+  "og_description": "Desarrollo a medida, consultoría técnica y productos propios. La herramienta correcta para cada problema, no la más compleja.",
+  "og_image_url": "/assets/brand/icon-dark-512.png",
+  "favicon_url": "/assets/brand/icon-favicon-dark.svg",
   "og_video_url": null,
-  "marketplace_cover_url": null
+  "marketplace_cover_url": "/assets/brand/icon-dark-512.png"
 }
