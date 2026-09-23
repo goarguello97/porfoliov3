@@ -65,10 +65,11 @@ On Windows, the desktop app's preview config in the parent folder calls `node_mo
 
 ## Git remotes and deploying
 
-There are two destinations:
+There are three destinations:
 
 - **GitHub:** `https://github.com/goarguello97/porfoliov3.git`, the owner's code backup. `main` tracks it.
 - **Higgsfield:** the repo the live site deploys from. It takes a short-lived scoped token, so there's no stored credential.
+- **Vercel:** deploys from the GitHub repo on push to `main`. See "Vercel" below.
 
 On the original laptop, the Higgsfield remote is `origin` and GitHub is `github`. On a fresh clone from GitHub, `origin` is GitHub. Push to Higgsfield by URL, as below.
 
@@ -107,6 +108,26 @@ higgsfield website status 9fe7bc01-2486-4597-97a7-dca8c9484b48
 - The live URL `https://gonzaloarguello.higgsfield.app` currently returns **401** (it redirects to Higgsfield sign-in) for anyone not signed in, even though status says `deployed`. The cause isn't known yet (free plan? not on the feed?). Don't assume the site is public.
 - `.github/workflows/ci.yml` is the template's CI. It targets the self-hosted runner `arc-runners-frontend`, which doesn't exist on the owner's GitHub, so runs there will queue and never start. Leave the file alone (template lockstep); ignore those runs or disable Actions on GitHub.
 - `app/packages/` holds Higgsfield's vendored packages. They're required by the build; don't delete them. If the GitHub repo is public, they're visible there.
+
+## Vercel (second deploy target)
+
+Added to get a **publicly reachable** URL, since `gonzaloarguello.higgsfield.app` answers 401 to anyone not signed in. Higgsfield is still the primary target and its build is untouched.
+
+- **Root Directory must be `app`** in the Vercel project settings — the app isn't at the repo root. Framework preset: TanStack Start (pinned in `app/vercel.json`, so monorepo detection can't fall back to plain Vite).
+- Vercel runs `bun run build` (it picks up `bun.lock`), so `check:ui` and `tsc --noEmit` gate the deploy exactly like everywhere else.
+- Vercel sets `VERCEL=1` during the build. `app/vite.config.ts` gates **everything** Vercel-specific on that flag:
+  - `nitro()` from `nitro/vite` is added to the plugins only then. Nitro reads `VERCEL=1` itself, picks its `vercel` preset and emits `.vercel/output` (static + a `nodejs24.x` function with response streaming).
+  - The workerd SSR settings are skipped then — `ssr.target: "webworker"`, the edge resolve conditions, and `noExternal`. Vercel Functions run on Node, so `node:` builtins are real instead of `nodejs_compat` shims.
+  - With the flag unset, nitro never loads and the build emits `dist/server/server.js` for Cloudflare exactly as before. Verify both after touching the vite config:
+
+```bash
+cd app && bun run build                      # Cloudflare: dist/server/server.js
+cd app && VERCEL=1 bun run build             # Vercel: .vercel/output
+```
+
+- `src/server.ts` keeps its Worker shape (`export default { fetch(request, env, ctx) }`). Nitro consumes it fine — it's a web-standard fetch handler — so `applySecurityHeaders` still runs on both targets. Don't "de-Cloudflare" it.
+- `app.manifest.json` declares no D1/R2/KV/Durable Object, so there are no Cloudflare bindings to replace. If infra is ever opted into, it binds on Higgsfield only and Vercel needs a separate storage story.
+- Don't follow Vercel's "migrate off Cloudflare" guide: it deletes `wrangler.jsonc` and the Cloudflare deps, which breaks Higgsfield and the template lockstep `app/AGENTS.md` requires.
 
 ## When the owner's video arrives
 
