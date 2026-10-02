@@ -10,7 +10,7 @@ Personal brand site (portfolio + services) for **Gonzalo Argüello**, full stack
 
 > *La herramienta correcta, no la más compleja.* The right tool, not the most complex one.
 
-The page opens with a scroll-driven journey: three chapters over a full-screen backdrop that responds to scrolling. The content sections follow: services, a portfolio case told through the decisions behind it, about me, and contact. The site's copy is in Spanish.
+The page opens with a scroll-driven journey: three chapters over a full-screen backdrop that responds to scrolling. The content sections follow: services, three portfolio projects told through the decisions behind them, about me, and contact. The site's copy is in Spanish.
 
 - **Live:** https://gonzaloarguello.higgsfield.app (it currently asks for a Higgsfield sign-in; see [Status](#status))
 - **Planned domain:** `gonzaloarguello.dev`
@@ -78,7 +78,7 @@ Run these from `app/`:
 ### Editing the content
 
 - **Chapter text** (the scroll journey): `app/src/scroll-scrub-scenes.ts`
-- **Everything else** (services, portfolio case, about, contact): `app/src/routes/index.tsx`
+- **Everything else** (services, portfolio projects, about, contact): `app/src/routes/index.tsx`
 - **Colors, spacing, type:** `app/src/site.css`. Keep raw hex colors out of `src/routes/`, or the build's UI check fails.
 - **Page title, description and share image:** `app/src/app-meta.json`
 
@@ -122,8 +122,8 @@ The live site deploys from a Higgsfield-hosted copy of this repo. GitHub is the 
 
 - [ ] Register `gonzaloarguello.dev`
 - [ ] Set up the real contact mailbox (the current address is a placeholder)
-- [ ] Add more portfolio cases
-- [ ] Add LinkedIn and GitHub links
+- [x] Add more portfolio cases (Willy Pesca y Camping, Entre Migas)
+- [ ] Add a LinkedIn link (GitHub is already linked)
 - [ ] Add a contact form
 - [ ] Add a separate CV / experience section
 - [ ] Add the scroll video and a proper share image
@@ -142,7 +142,7 @@ Sitio de marca personal (portfolio + servicios) de **Gonzalo Argüello**, desarr
 
 > *La herramienta correcta, no la más compleja.*
 
-La página arranca con un recorrido guiado por el scroll: tres capítulos sobre un fondo a pantalla completa que responde al desplazamiento. Después vienen las secciones de contenido: servicios, un caso de portfolio contado a partir de las decisiones que se tomaron, sobre mí y contacto.
+La página arranca con un recorrido guiado por el scroll: tres capítulos sobre un fondo a pantalla completa que responde al desplazamiento. Después vienen las secciones de contenido: servicios, tres proyectos de portfolio contados a partir de las decisiones que se tomaron, sobre mí y contacto.
 
 - **En vivo:** https://gonzaloarguello.higgsfield.app (por ahora pide iniciar sesión en Higgsfield; ver [Estado](#estado))
 - **Dominio previsto:** `gonzaloarguello.dev`
@@ -210,7 +210,7 @@ Se corren desde `app/`:
 ### Cómo editar el contenido
 
 - **Texto de los capítulos** (el recorrido con scroll): `app/src/scroll-scrub-scenes.ts`
-- **Todo lo demás** (servicios, caso de portfolio, sobre mí, contacto): `app/src/routes/index.tsx`
+- **Todo lo demás** (servicios, proyectos de portfolio, sobre mí, contacto): `app/src/routes/index.tsx`
 - **Colores, espaciado, tipografía:** `app/src/site.css`. No pongas colores hex directamente en `src/routes/`, porque falla el chequeo de UI del build.
 - **Título, descripción e imagen para compartir:** `app/src/app-meta.json`
 
@@ -254,8 +254,8 @@ El sitio en vivo se publica desde una copia de este repo alojada en Higgsfield. 
 
 - [ ] Registrar `gonzaloarguello.dev`
 - [ ] Crear la casilla de contacto real (la dirección actual es provisoria)
-- [ ] Sumar más casos de portfolio
-- [ ] Agregar los links a LinkedIn y GitHub
+- [x] Sumar más casos de portfolio (Willy Pesca y Camping, Entre Migas)
+- [ ] Agregar el link a LinkedIn (GitHub ya está enlazado)
 - [ ] Agregar un formulario de contacto
 - [ ] Agregar una sección de CV / experiencia aparte
 - [ ] Agregar el video del recorrido y una imagen para compartir adecuada

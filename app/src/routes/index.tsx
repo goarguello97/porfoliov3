@@ -26,7 +26,7 @@ const scenes: ScrollScrubScene[] = scrollScrubScenes.map((scene, index) =>
               Hablemos de tu proyecto
             </a>
             <a className="gs-btn gs-btn--line" href="#proyectos">
-              Ver un caso real
+              Ver proyectos
             </a>
           </>
         ),
@@ -49,18 +49,99 @@ const services = [
   },
 ];
 
-const decisions = [
+type Decision = {
+  question: string;
+  why: string;
+  picked: string;
+  /** Shown under the pick when there is no discarded alternative. */
+  pickedNote?: string;
+  /** Only when the alternative was actually weighed; never invent one. */
+  dropped?: string;
+};
+
+type Project = {
+  id: string;
+  title: string;
+  client: string;
+  summary: string;
+  stack: string[];
+  site?: string;
+  repo?: string;
+  decisions: Decision[];
+};
+
+// Facts come from each project's README. The sustentabilidad case is the
+// owner's current employer: keep it anonymous and without links.
+const projects: Project[] = [
   {
-    question: "¿Cómo rediseñar las secciones clave del sitio?",
-    why: "El editor visual limitaba el diseño y la funcionalidad. Sumé HTML propio dentro de Wix, sin migrar todo el sitio.",
-    dropped: "Solo el editor visual de Wix",
-    picked: "Wix con HTML propio",
+    id: "willy-pesca",
+    title: "Willy Pesca y Camping",
+    client: "casa de pesca en Los Cóndores, Calamuchita",
+    summary:
+      "Sitio para una casa de pesca: vidriera de reeles y cañas con fichas técnicas, comparador de precios por categoría y pedidos de reparación de cañas que se arman como mensaje de WhatsApp. El negocio carga y actualiza sus productos desde un panel propio.",
+    stack: ["react 19", "tanstack start", "supabase", "tailwind css", "vercel"],
+    site: "https://willypesca.vercel.app",
+    repo: "https://github.com/goarguello97/willy-pesca-v2",
+    decisions: [
+      {
+        question: "¿Cómo actualiza el negocio su catálogo?",
+        why: "Con un panel de administración: login con Google solo para cuentas autorizadas, hasta 8 fotos por producto y campos técnicos según la categoría. Las imágenes se comprimen en el navegador antes de subirse.",
+        picked: "Panel propio sobre Supabase",
+        pickedNote: "postgresql + rls + google oauth",
+      },
+      {
+        question: "¿Cómo lo encuentran en buscadores y redes?",
+        why: "Las páginas se renderizan en el servidor e incluyen metadatos Open Graph y datos estructurados JSON-LD.",
+        picked: "Renderizado en servidor",
+        pickedNote: "tanstack start + json-ld",
+      },
+    ],
   },
   {
-    question: "¿Qué procesos internos necesitan software a medida?",
-    why: "Analicé cada proceso por separado. Donde Google Forms y Sheets resolvían la necesidad de forma más eficiente, implementé esa alternativa.",
-    dropped: "Software a medida para todo",
-    picked: "Forms + Sheets donde alcanza",
+    id: "entre-migas",
+    title: "Entre Migas",
+    client: "sándwiches de miga en Los Cóndores, Córdoba",
+    summary:
+      "Una app para que los clientes armen su pedido de sándwiches de miga desde el celular, por docena o media docena, y lo manden al WhatsApp del local con el mensaje ya armado. El carrito y los datos del cliente quedan guardados entre visitas.",
+    stack: ["react 19", "typescript", "tailwind css", "google sheets", "vercel"],
+    site: "https://entremigaslc-app.vercel.app",
+    repo: "https://github.com/goarguello97/entremigaslc-app",
+    decisions: [
+      {
+        question: "¿Hace falta un backend?",
+        why: "El negocio tenía que poder cambiar variedades, precios, disponibilidad y textos sin tocar código. Una planilla de Google Sheets publicada como CSV alcanza para eso. La contra, asumida: los pedidos no quedan registrados fuera del chat de WhatsApp.",
+        dropped: "Backend con base de datos",
+        picked: "Google Sheets como menú editable",
+      },
+      {
+        question: "¿Cómo se cierra el pedido?",
+        why: "Un checkout corto pide nombre, tipo de entrega, forma de pago y notas, y arma un link de WhatsApp con el pedido codificado en la URL.",
+        picked: "Mensaje de WhatsApp pre-armado",
+        pickedNote: "sin servidor",
+      },
+    ],
+  },
+  {
+    id: "sustentabilidad",
+    title: "Rediseño web y automatización de procesos",
+    client: "cliente del sector sustentabilidad",
+    summary:
+      "Un sitio en Wix que necesitaba más de lo que permitía el editor, y procesos internos que había que ordenar.",
+    stack: ["wix + html propio", "google forms", "google sheets"],
+    decisions: [
+      {
+        question: "¿Cómo rediseñar las secciones clave del sitio?",
+        why: "El editor visual limitaba el diseño y la funcionalidad. Sumé HTML propio dentro de Wix, sin migrar todo el sitio.",
+        dropped: "Solo el editor visual de Wix",
+        picked: "Wix con HTML propio",
+      },
+      {
+        question: "¿Qué procesos internos necesitan software a medida?",
+        why: "Analicé cada proceso por separado. Donde Google Forms y Sheets resolvían la necesidad de forma más eficiente, implementé esa alternativa.",
+        dropped: "Software a medida para todo",
+        picked: "Forms + Sheets donde alcanza",
+      },
+    ],
   },
 ];
 
@@ -121,42 +202,80 @@ function Index() {
           <div className="gs-wrap">
             <p className="gs-label">// proyectos</p>
             <h2 id="proyectos-title" className="gs-h2">
-              Un caso, contado por sus decisiones
+              Proyectos, contados por sus decisiones
             </h2>
-            <div className="gs-case-head">
-              <h3>Rediseño web y automatización de procesos</h3>
-              <span>cliente del sector sustentabilidad</span>
-            </div>
             <p className="gs-intro">
-              Un sitio en Wix que necesitaba más de lo que permitía el editor, y procesos
-              internos que había que ordenar. En cada punto, la pregunta fue la misma: qué es
-              lo mínimo que resuelve bien el problema.
+              En cada uno, la pregunta fue la misma: qué es lo mínimo que resuelve bien el
+              problema. A veces es una planilla; a veces, una base de datos.
             </p>
-            <div className="gs-decisions">
-              {decisions.map((d) => (
-                <article className="gs-decision" key={d.question}>
-                  <div>
-                    <p className="gs-decision__q">{d.question}</p>
-                    <p className="gs-decision__why">{d.why}</p>
-                  </div>
-                  <div className="gs-options">
-                    <div className="gs-opt">
-                      {d.dropped}
-                      <small>descartada</small>
+            {projects.map((project) => (
+              <article
+                className="gs-project"
+                id={project.id}
+                key={project.id}
+                aria-labelledby={`${project.id}-title`}
+              >
+                <div className="gs-case-head">
+                  <h3 id={`${project.id}-title`}>{project.title}</h3>
+                  <span>{project.client}</span>
+                </div>
+                <p className="gs-intro">{project.summary}</p>
+                <div className="gs-meta">
+                  <ul className="gs-stack" aria-label="Tecnologías">
+                    {project.stack.map((item) => (
+                      <li key={item}>{item}</li>
+                    ))}
+                  </ul>
+                  {project.site || project.repo ? (
+                    <p className="gs-links">
+                      {project.site ? (
+                        <a href={project.site} target="_blank" rel="noopener noreferrer">
+                          Ver sitio
+                        </a>
+                      ) : null}
+                      {project.repo ? (
+                        <a href={project.repo} target="_blank" rel="noopener noreferrer">
+                          Ver código
+                        </a>
+                      ) : null}
+                    </p>
+                  ) : null}
+                </div>
+                <div className="gs-decisions">
+                  {project.decisions.map((d) => (
+                    <div className="gs-decision" key={d.question}>
+                      <div>
+                        <p className="gs-decision__q">{d.question}</p>
+                        <p className="gs-decision__why">{d.why}</p>
+                      </div>
+                      <div className="gs-options">
+                        {d.dropped ? (
+                          <div className="gs-opt">
+                            {d.dropped}
+                            <small>descartada</small>
+                          </div>
+                        ) : null}
+                        <div className={d.dropped ? "gs-opt gs-opt--pick" : "gs-opt gs-opt--pick gs-opt--solo"}>
+                          {d.picked}
+                          <small>{d.dropped ? "✓ elegida" : (d.pickedNote ?? "✓ elegida")}</small>
+                        </div>
+                      </div>
                     </div>
-                    <div className="gs-opt gs-opt--pick">
-                      {d.picked}
-                      <small>✓ elegida</small>
-                    </div>
-                  </div>
-                </article>
-              ))}
-            </div>
+                  ))}
+                </div>
+              </article>
+            ))}
             <p className="gs-thesis">
               Elegir la herramienta correcta para cada problema ahorra tiempo y presupuesto sin
               sacrificar el resultado.
             </p>
-            <p className="gs-soon">Estoy sumando más proyectos propios a esta sección. Volvé pronto.</p>
+            <p className="gs-soon">
+              Más proyectos en{" "}
+              <a href="https://github.com/goarguello97" target="_blank" rel="noopener noreferrer">
+                mi GitHub
+              </a>
+              .
+            </p>
           </div>
         </section>
 

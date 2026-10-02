@@ -40,7 +40,8 @@ The in-repo template contract is below. Follow it: don't rewrite the scroll engi
 - **Not listed** on the Higgsfield community feed. Deploy only; publish only if the owner asks.
 - **Copy rules:**
   - Don't invent results, numbers, clients or testimonials.
-  - The portfolio case comes from the owner's **current employer**. Keep it anonymous ("cliente del sector sustentabilidad", "una empresa del sector sustentabilidad"). The owner still has to confirm with the employer that it can be shown.
+  - Projects live in the `projects` array in `index.tsx`. Willy Pesca and Entre Migas are named publicly with live and code links, and their facts come from their GitHub READMEs. A `dropped` option only appears where the alternative was really weighed; otherwise use `pickedNote`.
+  - The sustentabilidad case comes from the owner's **current employer**. Keep it anonymous ("cliente del sector sustentabilidad", "una empresa del sector sustentabilidad"). The owner still has to confirm with the employer that it can be shown.
   - The site's central idea: "La herramienta correcta, no la más compleja."
 - **No Higgsfield branding** in page content or meta. `author` is the owner and `twitter:site @Higgsfield` was removed.
 
@@ -119,8 +120,8 @@ higgsfield website status 9fe7bc01-2486-4597-97a7-dca8c9484b48
 
 - [ ] Register `gonzaloarguello.dev` (optionally `.io` as a defensive redirect).
 - [ ] Create the real mailbox. `hola@gonzaloarguello.dev` in `index.tsx` (`EMAIL`) is a placeholder, and contact is a plain `mailto:`.
-- [ ] Add more portfolio cases. There's only one now, plus a "sumando proyectos" note. 1–2 well-documented personal projects were suggested as a bridge.
-- [ ] Add real LinkedIn / GitHub links. None are on the site yet because no URLs were confirmed.
+- [x] Add more portfolio cases. Willy Pesca y Camping and Entre Migas were added in Oct 2026, three cases in total.
+- [ ] Add a real LinkedIn link. GitHub (`github.com/goarguello97`) is already linked below the projects; LinkedIn has no confirmed URL yet.
 - [ ] Confirm with the employer that the current case can be used.
 - [ ] Consider a real contact form (needs a backend or a service like Formspree).
 - [ ] Add a separate CV / work-experience section, where employers can be named.

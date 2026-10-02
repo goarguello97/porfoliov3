@@ -99,7 +99,19 @@
 .gs-case-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: .5rem 2rem; margin-top: 3rem; }
 .gs-case-head h3 { margin: 0; font-size: 1.5rem; font-weight: 600; }
 .gs-case-head span { font: 400 .9rem/1.4 var(--gs-mono); color: var(--gs-soft); }
+.gs-project { margin-top: 3rem; scroll-margin-top: 5rem; }
+.gs-project + .gs-project { margin-top: 4.5rem; padding-top: 3.5rem; border-top: 1px solid var(--gs-rule); }
+.gs-project .gs-case-head { margin-top: 0; }
+.gs-meta { display: flex; flex-wrap: wrap; align-items: center; gap: .75rem 1.75rem; margin-top: 1.25rem; }
+.gs-stack { display: flex; flex-wrap: wrap; gap: .4rem; margin: 0; padding: 0; list-style: none; }
+.gs-stack li {
+  padding: .3rem .55rem; border: 1px solid var(--gs-rule); border-radius: 4px;
+  background: var(--gs-white); color: var(--gs-soft); font: 400 .8rem/1.2 var(--gs-mono);
+}
+.gs-links { display: flex; gap: 1.25rem; margin: 0; font-weight: 500; }
+.gs-links a, .gs-soon a { color: var(--gs-link); }
 .gs-decisions { display: grid; gap: 1.25rem; margin-top: 2.25rem; }
+.gs-opt--solo { grid-column: 1 / -1; }
 .gs-decision {
   display: grid; grid-template-columns: 1fr 1.25fr; gap: 1.5rem 2.5rem;
   padding: 1.75rem; border: 1px solid var(--gs-rule); border-radius: 10px; background: var(--gs-white);
