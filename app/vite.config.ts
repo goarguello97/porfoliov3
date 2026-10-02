@@ -1,6 +1,7 @@
 import { tanstackStart } from "@tanstack/react-start/plugin/vite";
 import tailwindcss from "@tailwindcss/vite";
 import react from "@vitejs/plugin-react";
+import { nitro } from "nitro/vite";
 import {
   higgsfieldDesignInspectorVitePlugin,
   higgsfieldDesignSourceBabelPlugin,
@@ -17,6 +18,14 @@ import { fileURLToPath } from "node:url";
 const QUANTA_ICONS_SHIM = fileURLToPath(
   new URL("./src/lib/quanta-icons.ts", import.meta.url),
 );
+
+// SECOND DEPLOY TARGET — Vercel. Higgsfield/Cloudflare is still the primary one
+// and its build must stay byte-identical, so everything Vercel needs is gated
+// behind this flag. Vercel sets VERCEL=1 during the build; locally and in the
+// Higgsfield deploy CI it is unset, so that path never loads nitro and keeps the
+// workerd SSR config below. Nitro reads VERCEL=1 itself to pick its `vercel`
+// preset and emits .vercel/output instead of dist/server/server.js.
+const isVercelBuild = Boolean(process.env.VERCEL);
 
 export default defineConfig(({ command, mode }) => {
   const designInspectorEnabled = process.env.HF_DESIGN_INSPECTOR === "1" || mode === "design";
@@ -47,7 +56,11 @@ export default defineConfig(({ command, mode }) => {
       // both variants bundle their edge build (react-dom's web-streams server,
       // etc.) instead of the Node variant leaning on nodejs_compat shims.
       // `vite dev` SSR runs in Node, where default node resolution is correct.
-      ...(command === "build"
+      // NOT on Vercel: Vercel Functions run on Node, so the workerd target,
+      // the edge export conditions and the bundle-everything pass are all
+      // wrong there — nitro does its own Node-targeted server bundling and
+      // node: builtins are real instead of nodejs_compat shims.
+      ...(command === "build" && !isVercelBuild
         ? {
             target: "webworker" as const,
             resolve: {
@@ -60,7 +73,7 @@ export default defineConfig(({ command, mode }) => {
             },
           }
         : {}),
-      noExternal: command === "build" ? true : undefined,
+      noExternal: command === "build" && !isVercelBuild ? true : undefined,
       // `cloudflare:workers` is a workerd runtime built-in that exposes the Worker
       // env / bindings (D1 `DB`, R2 `STORAGE`). Like node: builtins it must NOT be
       // bundled; the runtime provides it. (`ssr.external` is typed string[].)
@@ -100,6 +113,11 @@ export default defineConfig(({ command, mode }) => {
       tanstackStart({
         server: { entry: "server" },
       }),
+      // Vercel only. Nitro takes over the server build and emits
+      // .vercel/output (Vercel Functions on Fluid compute). Must sit directly
+      // after tanstackStart(). Absent everywhere else, so the Cloudflare path
+      // still emits dist/server/server.js exactly as before.
+      ...(isVercelBuild ? [nitro()] : []),
       higgsfieldDesignInspectorVitePlugin(designInspectorEnabled),
       react({
         babel: {
