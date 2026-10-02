@@ -12,7 +12,7 @@ Personal brand site (portfolio + services) for **Gonzalo Argüello**, full stack
 
 The page opens with a scroll-driven journey: three chapters over a full-screen backdrop that responds to scrolling. The content sections follow: services, three portfolio projects told through the decisions behind them, about me, and contact. The site's copy is in Spanish.
 
-- **Live:** https://gonzaloarguello.higgsfield.app (it currently asks for a Higgsfield sign-in; see [Status](#status))
+- **Live:** deployed on Vercel from `main`
 - **Planned domain:** `gonzaloarguello.dev`
 
 ### Tech stack
@@ -21,7 +21,7 @@ The page opens with a scroll-driven journey: three chapters over a full-screen b
 |---|---|
 | Framework | React 19 + TanStack Start (server-rendered) |
 | Build | Vite 8, TypeScript |
-| Runtime | One Cloudflare Worker, deployed through Higgsfield |
+| Hosting | Vercel (Node functions through Nitro), deployed from GitHub `main` |
 | Package manager | Bun |
 | Starting point | Higgsfield *scroll-scrub* website template (scroll-synced video engine) |
 | Styling | Plain CSS brand layer (`app/src/site.css`) |
@@ -46,7 +46,9 @@ The page opens with a scroll-driven journey: three chapters over a full-screen b
     │   ├── favicon.ico
     │   └── assets/
     │       ├── brand/              Logo and icons
+    │       ├── projects/           Project screenshots (desktop + phone)
     │       └── world/              Journey backdrops (landscape + portrait)
+    ├── vercel.json                 Vercel framework preset
     └── packages/                   Vendored template packages (required by the build)
 ```
 
@@ -81,6 +83,7 @@ Run these from `app/`:
 - **Everything else** (services, portfolio projects, about, contact): `app/src/routes/index.tsx`
 - **Colors, spacing, type:** `app/src/site.css`. Keep raw hex colors out of `src/routes/`, or the build's UI check fails.
 - **Page title, description and share image:** `app/src/app-meta.json`
+- **Project images:** `app/public/assets/projects/`, referenced from each project's `image` in `index.tsx`. Each one is a 1200×795 JPEG showing the live site on a laptop and a phone. The sustentabilidad case has no image on purpose, because it would identify the employer.
 
 ### Brand
 
@@ -104,24 +107,22 @@ The site is built to scrub a video as you scroll, but it ships without one for n
 
 ### Deployment
 
-The live site deploys from a Higgsfield-hosted copy of this repo. GitHub is the code backup, and pushing to GitHub alone doesn't update the live site.
+Vercel builds and deploys the site every time `main` is pushed to GitHub.
 
 1. `bun run build` passes.
 2. Commit and push to GitHub.
-3. Push the same commit to the Higgsfield repo and run `higgsfield website deploy`. This needs the Higgsfield CLI and `higgsfield auth login`.
 
-`CLAUDE.md` has the exact commands, including how to push without saving the access token.
+In the Vercel project, the Root Directory must be `app`. `CLAUDE.md` explains how the build switches between Vercel and the template's original Cloudflare Worker output. The site is no longer deployed on Higgsfield.
 
 ### Status
 
-- **Live URL needs a sign-in.** The deployed site currently asks visitors to sign in to Higgsfield. The cause is still being checked.
 - **No video yet.** The journey uses SVG backdrops until the video is added.
 - **CI doesn't run on GitHub.** The template's workflow targets a build server that doesn't exist on this account, so runs stay queued. It's harmless and the file is left as shipped.
 
 ### Roadmap
 
 - [ ] Register `gonzaloarguello.dev`
-- [ ] Set up the real contact mailbox (the current address is a placeholder)
+- [x] Real contact email
 - [x] Add more portfolio cases (Willy Pesca y Camping, Entre Migas)
 - [ ] Add a LinkedIn link (GitHub is already linked)
 - [ ] Add a contact form
@@ -144,7 +145,7 @@ Sitio de marca personal (portfolio + servicios) de **Gonzalo Argüello**, desarr
 
 La página arranca con un recorrido guiado por el scroll: tres capítulos sobre un fondo a pantalla completa que responde al desplazamiento. Después vienen las secciones de contenido: servicios, tres proyectos de portfolio contados a partir de las decisiones que se tomaron, sobre mí y contacto.
 
-- **En vivo:** https://gonzaloarguello.higgsfield.app (por ahora pide iniciar sesión en Higgsfield; ver [Estado](#estado))
+- **En vivo:** publicado en Vercel desde `main`
 - **Dominio previsto:** `gonzaloarguello.dev`
 
 ### Tecnologías
@@ -153,7 +154,7 @@ La página arranca con un recorrido guiado por el scroll: tres capítulos sobre 
 |---|---|
 | Framework | React 19 + TanStack Start (renderizado en servidor) |
 | Build | Vite 8, TypeScript |
-| Runtime | Un Cloudflare Worker, publicado a través de Higgsfield |
+| Hosting | Vercel (funciones de Node a través de Nitro), publicado desde `main` en GitHub |
 | Gestor de paquetes | Bun |
 | Punto de partida | Plantilla de sitio *scroll-scrub* de Higgsfield (motor de video sincronizado con el scroll) |
 | Estilos | Capa de marca en CSS plano (`app/src/site.css`) |
@@ -178,7 +179,9 @@ La página arranca con un recorrido guiado por el scroll: tres capítulos sobre 
     │   ├── favicon.ico
     │   └── assets/
     │       ├── brand/              Logo e íconos
+    │       ├── projects/           Capturas de los proyectos (computadora + celular)
     │       └── world/              Fondos del recorrido (horizontal + vertical)
+    ├── vercel.json                 Preset de framework para Vercel
     └── packages/                   Paquetes de la plantilla incluidos (el build los necesita)
 ```
 
@@ -213,6 +216,7 @@ Se corren desde `app/`:
 - **Todo lo demás** (servicios, proyectos de portfolio, sobre mí, contacto): `app/src/routes/index.tsx`
 - **Colores, espaciado, tipografía:** `app/src/site.css`. No pongas colores hex directamente en `src/routes/`, porque falla el chequeo de UI del build.
 - **Título, descripción e imagen para compartir:** `app/src/app-meta.json`
+- **Imágenes de los proyectos:** `app/public/assets/projects/`, referenciadas desde el `image` de cada proyecto en `index.tsx`. Cada una es un JPEG de 1200×795 con el sitio en vivo en una computadora y un celular. El caso de sustentabilidad no tiene imagen a propósito, porque identificaría al empleador.
 
 ### Marca
 
@@ -236,24 +240,22 @@ El sitio está pensado para que un video avance con el scroll, pero por ahora sa
 
 ### Publicación
 
-El sitio en vivo se publica desde una copia de este repo alojada en Higgsfield. GitHub es el respaldo del código, y subir cambios solo a GitHub no actualiza el sitio.
+Vercel compila y publica el sitio cada vez que se hace push de `main` a GitHub.
 
 1. `bun run build` pasa sin errores.
 2. Commit y push a GitHub.
-3. Push del mismo commit al repo de Higgsfield y `higgsfield website deploy`. Esto necesita el CLI de Higgsfield y `higgsfield auth login`.
 
-`CLAUDE.md` tiene los comandos exactos, incluido cómo hacer push sin guardar el token de acceso.
+En el proyecto de Vercel, el Root Directory tiene que ser `app`. `CLAUDE.md` explica cómo el build alterna entre Vercel y la salida original de Cloudflare Worker de la plantilla. El sitio ya no se publica en Higgsfield.
 
 ### Estado
 
-- **La URL en vivo pide iniciar sesión.** Hoy el sitio publicado les pide a los visitantes que inicien sesión en Higgsfield. Todavía se está revisando por qué.
 - **Todavía no hay video.** El recorrido usa fondos SVG hasta que se agregue.
 - **El CI no corre en GitHub.** El workflow de la plantilla apunta a un servidor de build que no existe en esta cuenta, así que las ejecuciones quedan en cola. No afecta en nada y el archivo se deja como vino.
 
 ### Próximos pasos
 
 - [ ] Registrar `gonzaloarguello.dev`
-- [ ] Crear la casilla de contacto real (la dirección actual es provisoria)
+- [x] Email de contacto real
 - [x] Sumar más casos de portfolio (Willy Pesca y Camping, Entre Migas)
 - [ ] Agregar el link a LinkedIn (GitHub ya está enlazado)
 - [ ] Agregar un formulario de contacto

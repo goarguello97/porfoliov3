@@ -12,7 +12,7 @@ export const Route = createFileRoute("/")({
   component: Index,
 });
 
-const EMAIL = "hola@gonzaloarguello.dev";
+const EMAIL = "arguellogonzalo97@gmail.com";
 
 // Module constant: the hero chapter gets its CTAs without changing the array's
 // identity between renders.
@@ -67,6 +67,8 @@ type Project = {
   stack: string[];
   site?: string;
   repo?: string;
+  /** Screenshot of the live site (desktop + phone), 1200×795. */
+  image?: { src: string; alt: string };
   decisions: Decision[];
 };
 
@@ -82,6 +84,10 @@ const projects: Project[] = [
     stack: ["react 19", "tanstack start", "supabase", "tailwind css", "vercel"],
     site: "https://willypesca.vercel.app",
     repo: "https://github.com/goarguello97/willy-pesca-v2",
+    image: {
+      src: "/assets/projects/willy-pesca.jpg",
+      alt: "Sitio de Willy Pesca y Camping en una computadora y en un celular",
+    },
     decisions: [
       {
         question: "¿Cómo actualiza el negocio su catálogo?",
@@ -106,6 +112,10 @@ const projects: Project[] = [
     stack: ["react 19", "typescript", "tailwind css", "google sheets", "vercel"],
     site: "https://entremigaslc-app.vercel.app",
     repo: "https://github.com/goarguello97/entremigaslc-app",
+    image: {
+      src: "/assets/projects/entre-migas.jpg",
+      alt: "App de pedidos de Entre Migas en una computadora y en un celular",
+    },
     decisions: [
       {
         question: "¿Hace falta un backend?",
@@ -144,6 +154,20 @@ const projects: Project[] = [
     ],
   },
 ];
+
+// The screenshot links to the live site when there is one.
+function ProjectShot({ project, image }: { project: Project; image: { src: string; alt: string } }) {
+  const img = (
+    <img src={image.src} alt={image.alt} width={1200} height={795} loading="lazy" decoding="async" />
+  );
+  return project.site ? (
+    <a className="gs-shot" href={project.site} target="_blank" rel="noopener noreferrer">
+      {img}
+    </a>
+  ) : (
+    <div className="gs-shot">{img}</div>
+  );
+}
 
 function Logo() {
   return (
@@ -215,31 +239,40 @@ function Index() {
                 key={project.id}
                 aria-labelledby={`${project.id}-title`}
               >
-                <div className="gs-case-head">
-                  <h3 id={`${project.id}-title`}>{project.title}</h3>
-                  <span>{project.client}</span>
-                </div>
-                <p className="gs-intro">{project.summary}</p>
-                <div className="gs-meta">
-                  <ul className="gs-stack" aria-label="Tecnologías">
-                    {project.stack.map((item) => (
-                      <li key={item}>{item}</li>
-                    ))}
-                  </ul>
-                  {project.site || project.repo ? (
-                    <p className="gs-links">
-                      {project.site ? (
-                        <a href={project.site} target="_blank" rel="noopener noreferrer">
-                          Ver sitio
-                        </a>
+                <div
+                  className={
+                    project.image ? "gs-project__top gs-project__top--shot" : "gs-project__top"
+                  }
+                >
+                  <div className="gs-case-head">
+                    <h3 id={`${project.id}-title`}>{project.title}</h3>
+                    <span>{project.client}</span>
+                  </div>
+                  {project.image ? <ProjectShot project={project} image={project.image} /> : null}
+                  <div className="gs-project__body">
+                    <p className="gs-intro">{project.summary}</p>
+                    <div className="gs-meta">
+                      <ul className="gs-stack" aria-label="Tecnologías">
+                        {project.stack.map((item) => (
+                          <li key={item}>{item}</li>
+                        ))}
+                      </ul>
+                      {project.site || project.repo ? (
+                        <p className="gs-links">
+                          {project.site ? (
+                            <a href={project.site} target="_blank" rel="noopener noreferrer">
+                              Ver sitio
+                            </a>
+                          ) : null}
+                          {project.repo ? (
+                            <a href={project.repo} target="_blank" rel="noopener noreferrer">
+                              Ver código
+                            </a>
+                          ) : null}
+                        </p>
                       ) : null}
-                      {project.repo ? (
-                        <a href={project.repo} target="_blank" rel="noopener noreferrer">
-                          Ver código
-                        </a>
-                      ) : null}
-                    </p>
-                  ) : null}
+                    </div>
+                  </div>
                 </div>
                 <div className="gs-decisions">
                   {project.decisions.map((d) => (

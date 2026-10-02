@@ -2,7 +2,7 @@
 
 Personal brand site (portfolio + selling services) for Gonzalo Argüello, full stack developer and advanced Software Engineering student. The copy is in Spanish (Rioplatense, uses *vos*). Talk to the owner in the language they write in.
 
-Built on the Higgsfield **scroll-scrub website template**: React 19 + TanStack Start, server-rendered, deployed as one Cloudflare Worker. The project lives in `app/`. Run every `bun` command from there.
+Built on the Higgsfield **scroll-scrub website template**: React 19 + TanStack Start, server-rendered. The template targets a Cloudflare Worker, but the site is deployed on **Vercel** from GitHub `main`. The project lives in `app/`. Run every `bun` command from there.
 
 The in-repo template contract is below. Follow it: don't rewrite the scroll engine, delete nothing from the scaffold, never import `@higgsfield/quanta/*`.
 
@@ -18,6 +18,7 @@ The in-repo template contract is below. Follow it: don't rewrite the scroll engi
 | `app/src/app-meta.json` | Title, description, favicon, share image, feed cover. |
 | `app/src/routes/__root.tsx` | `<head>`: `lang="es"`, author, IBM Plex from Google Fonts, apple-touch-icon. Edited from the template. |
 | `app/public/assets/brand/` | The owner's logo and icons (copied from their original static site). `logo-gonzalo-arguello-light.svg` is a white recolor made for dark backgrounds. |
+| `app/public/assets/projects/` | Project screenshots: `willy-pesca.jpg`, `entre-migas.jpg`. Each is a 1200×795 JPEG showing the live site's desktop view (1440×900) in a browser frame next to its phone view (390×844 at 2×), on the section's `#EEF5FA` background. They were made with headless Chrome driven through the DevTools protocol (real device emulation; plain `--window-size` can't go below ~500px wide) and composited with System.Drawing. To redo one, keep the same size and framing. |
 | `app/public/assets/world/` | Journey backdrops: `scene-01-poster.svg` (landscape) and `scene-01-mobile-poster.svg` (portrait). |
 | `app/public/favicon.ico` | Multi-size favicon. |
 
@@ -32,16 +33,17 @@ The in-repo template contract is below. Follow it: don't rewrite the scroll engi
 
 ## Decisions the owner made (don't undo without asking)
 
-- **No `$` in the hero.** It reads as money. The hero uses a terminal prompt instead: chapter kickers are `> whoami`, `> evaluar proceso-interno`, `> ls servicios/`, and the backdrops draw a large `>_`. The `$` still appears in the header/footer logo, the contact email prefix, the "sumando proyectos" line and the icon files. The owner hasn't decided on those yet, so ask before changing them.
+- **No `$` in the hero.** It reads as money. The hero uses a terminal prompt instead: chapter kickers are `> whoami`, `> evaluar proceso-interno`, `> ls servicios/`, and the backdrops draw a large `>_`. The `$` still appears in the header/footer logo, the contact email prefix, the "Más proyectos en mi GitHub" line and the icon files. The owner hasn't decided on those yet, so ask before changing them.
 - **No AI-generated media.** Don't generate images, video or covers. The owner will supply their own later. Until then:
   - Every scene's `clip` is `""`, so the engine never fetches a video and the SVG poster holds the stage. `site.css` zooms it slightly as you scroll.
   - `og_image_url` and `marketplace_cover_url` point to `/assets/brand/icon-dark-512.png`.
 - **Animated template chosen** (scroll-scrub). The video goes in later; see "When the owner's video arrives".
-- **Not listed** on the Higgsfield community feed. Deploy only; publish only if the owner asks.
+- **Higgsfield is retired for this project** (the owner decided on 2026-10-02). Never push to the Higgsfield repo and never run `higgsfield website deploy` / `publish`. Push to GitHub only; Vercel deploys from it. See "Git remotes and deploying".
+- **Contact email is `arguellogonzalo97@gmail.com`** (`EMAIL` in `index.tsx`), at the owner's request. It replaced the `hola@gonzaloarguello.dev` placeholder.
 - **Copy rules:**
   - Don't invent results, numbers, clients or testimonials.
-  - Projects live in the `projects` array in `index.tsx`. Willy Pesca and Entre Migas are named publicly with live and code links, and their facts come from their GitHub READMEs. A `dropped` option only appears where the alternative was really weighed; otherwise use `pickedNote`.
-  - The sustentabilidad case comes from the owner's **current employer**. Keep it anonymous ("cliente del sector sustentabilidad", "una empresa del sector sustentabilidad"). The owner still has to confirm with the employer that it can be shown.
+  - Projects live in the `projects` array in `index.tsx`. Willy Pesca and Entre Migas are named publicly with live and code links, and their facts come from their GitHub READMEs. A `dropped` option only appears where the alternative was really weighed; otherwise use `pickedNote`. A project's optional `image` renders beside the summary on desktop and under the title on phones, and it links to the live site.
+  - The sustentabilidad case comes from the owner's **current employer**. Keep it anonymous ("cliente del sector sustentabilidad", "una empresa del sector sustentabilidad"). The owner still has to confirm with the employer that it can be shown. It has **no image** on purpose, because a screenshot would identify the employer.
   - The site's central idea: "La herramienta correcta, no la más compleja."
 - **No Higgsfield branding** in page content or meta. `author` is the owner and `twitter:site @Higgsfield` was removed.
 
@@ -66,53 +68,18 @@ On Windows, the desktop app's preview config in the parent folder calls `node_mo
 
 ## Git remotes and deploying
 
-There are three destinations:
+The only destination is **GitHub**: `https://github.com/goarguello97/porfoliov3.git`. **Vercel** deploys from it on every push to `main` (see "Vercel" below).
 
-- **GitHub:** `https://github.com/goarguello97/porfoliov3.git`, the owner's code backup. `main` tracks it.
-- **Higgsfield:** the repo the live site deploys from. It takes a short-lived scoped token, so there's no stored credential.
-- **Vercel:** deploys from the GitHub repo on push to `main`. See "Vercel" below.
+Deploy flow: `bun run build` passes → commit → `git push`. That's all.
 
-On the original laptop, the Higgsfield remote is `origin` and GitHub is `github`. On a fresh clone from GitHub, `origin` is GitHub. Push to Higgsfield by URL, as below.
-
-The website ID is `9fe7bc01-2486-4597-97a7-dca8c9484b48` (subdomain `gonzaloarguello`, category `other`). `higgsfield website list` shows it too. The CLI needs `higgsfield auth login` first; the owner runs that, never Claude.
-
-Deploy flow: build passes → commit → push to GitHub → push to Higgsfield → deploy.
-
-```bash
-git push github main    # or `git push` on a fresh clone
-```
-
-Push to Higgsfield without saving the token anywhere (bash):
-
-```bash
-URL=$(higgsfield website repo-access 9fe7bc01-2486-4597-97a7-dca8c9484b48 --json | bun -e 'const j=JSON.parse(await Bun.stdin.text());const u=new URL(j.repo_url);u.username=j.username;u.password=j.token;console.log(u.href)')
-git -c credential.helper= push "$URL" HEAD:main
-```
-
-PowerShell equivalent:
-
-```powershell
-$r = higgsfield website repo-access 9fe7bc01-2486-4597-97a7-dca8c9484b48 --json | ConvertFrom-Json
-$u = [uri]$r.repo_url
-git -c credential.helper= push "https://$($r.username):$($r.token)@$($u.Host)$($u.PathAndQuery)" "HEAD:$($r.branch)"
-```
-
-Then deploy and check:
-
-```bash
-higgsfield website deploy 9fe7bc01-2486-4597-97a7-dca8c9484b48
-higgsfield website status 9fe7bc01-2486-4597-97a7-dca8c9484b48
-```
-
-- Never print, commit or save the token to git config. Mask it in any output.
-- The deploy request sometimes fails with "request failed (no response received)". Retry. `--json` has worked on retry.
-- The live URL `https://gonzaloarguello.higgsfield.app` currently returns **401** (it redirects to Higgsfield sign-in) for anyone not signed in, even though status says `deployed`. The cause isn't known yet (free plan? not on the feed?). Don't assume the site is public.
+- On the original laptop, GitHub is the remote `github` and `main` tracks it, so a plain `git push` goes there. On a fresh clone, GitHub is `origin`.
+- **Higgsfield (retired):** on the original laptop, `origin` still points at the old Higgsfield repo (website `9fe7bc01-2486-4597-97a7-dca8c9484b48`, `gonzaloarguello.higgsfield.app`, which always answered 401 to visitors who weren't signed in). The owner decided on 2026-10-02 to stop using it. **Never push to `origin` there, and never run any `higgsfield website …` command for this site.** That copy stays frozen at the 2026-10-02 merge.
 - `.github/workflows/ci.yml` is the template's CI. It targets the self-hosted runner `arc-runners-frontend`, which doesn't exist on the owner's GitHub, so runs there will queue and never start. Leave the file alone (template lockstep); ignore those runs or disable Actions on GitHub.
 - `app/packages/` holds Higgsfield's vendored packages. They're required by the build; don't delete them. If the GitHub repo is public, they're visible there.
 
-## Vercel (second deploy target)
+## Vercel (the deploy target)
 
-Added to get a **publicly reachable** URL, since `gonzaloarguello.higgsfield.app` answers 401 to anyone not signed in. Higgsfield is still the primary target and its build is untouched.
+Added from the owner's other laptop to get a **publicly reachable** URL, because `gonzaloarguello.higgsfield.app` answered 401 to anyone not signed in. It's now the only deploy target. The template's default Cloudflare build is still kept intact for the template lockstep; it just isn't deployed anywhere.
 
 - **Root Directory must be `app`** in the Vercel project settings — the app isn't at the repo root. Framework preset: TanStack Start (pinned in `app/vercel.json`, so monorepo detection can't fall back to plain Vite).
 - Vercel runs `bun run build` (it picks up `bun.lock`), so `check:ui` and `tsc --noEmit` gate the deploy exactly like everywhere else.
@@ -127,8 +94,8 @@ cd app && VERCEL=1 bun run build             # Vercel: .vercel/output
 ```
 
 - `src/server.ts` keeps its Worker shape (`export default { fetch(request, env, ctx) }`). Nitro consumes it fine — it's a web-standard fetch handler — so `applySecurityHeaders` still runs on both targets. Don't "de-Cloudflare" it.
-- `app.manifest.json` declares no D1/R2/KV/Durable Object, so there are no Cloudflare bindings to replace. If infra is ever opted into, it binds on Higgsfield only and Vercel needs a separate storage story.
-- Don't follow Vercel's "migrate off Cloudflare" guide: it deletes `wrangler.jsonc` and the Cloudflare deps, which breaks Higgsfield and the template lockstep `app/AGENTS.md` requires.
+- `app.manifest.json` declares no D1/R2/KV/Durable Object, so there are no Cloudflare bindings to replace. If the site ever needs storage or a database, use something Vercel can reach (Higgsfield infra is off the table).
+- Don't follow Vercel's "migrate off Cloudflare" guide: it deletes `wrangler.jsonc` and the Cloudflare deps, which breaks the default build and the template lockstep `app/AGENTS.md` requires.
 
 ## When the owner's video arrives
 
@@ -140,11 +107,11 @@ cd app && VERCEL=1 bun run build             # Vercel: .vercel/output
 ## Owner's to-do list (from the brand brief)
 
 - [ ] Register `gonzaloarguello.dev` (optionally `.io` as a defensive redirect).
-- [ ] Create the real mailbox. `hola@gonzaloarguello.dev` in `index.tsx` (`EMAIL`) is a placeholder, and contact is a plain `mailto:`.
+- [x] Real contact email: `arguellogonzalo97@gmail.com`, a plain `mailto:`. If `gonzaloarguello.dev` gets registered, the owner may want a mailbox on it.
 - [x] Add more portfolio cases. Willy Pesca y Camping and Entre Migas were added in Oct 2026, three cases in total.
 - [ ] Add a real LinkedIn link. GitHub (`github.com/goarguello97`) is already linked below the projects; LinkedIn has no confirmed URL yet.
 - [ ] Confirm with the employer that the current case can be used.
 - [ ] Consider a real contact form (needs a backend or a service like Formspree).
 - [ ] Add a separate CV / work-experience section, where employers can be named.
 - [ ] Supply the video and cover (see above). Decide whether the `$` goes from the logo and icons too.
-- [ ] Figure out why the live URL returns 401 before sharing it.
+- [ ] Add the Vercel production URL to the README and this file once the owner shares it.
