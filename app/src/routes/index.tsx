@@ -132,6 +132,24 @@ const projects: Project[] = [
     ],
   },
   {
+    // Built at the owner's current job for a client: no client name, no image,
+    // no links, and no implementation details beyond what the owner shared.
+    id: "canje-codigos",
+    title: "Sistema de canje de códigos de descuento",
+    client: "cliente importante del rubro sushi",
+    summary:
+      "Un sistema para canjear códigos de descuento, que diseñé y construí de punta a punta. Por confidencialidad, no muestro el nombre del cliente ni los detalles del funcionamiento.",
+    stack: ["google forms", "google sheets"],
+    decisions: [
+      {
+        question: "¿Sistema a medida o herramientas que ya existen?",
+        why: "Propuse dos caminos: un desarrollo full stack a medida o una solución sobre Google Forms y Sheets. Por costo, el cliente eligió la segunda.",
+        dropped: "Desarrollo full stack a medida",
+        picked: "Google Forms + Sheets",
+      },
+    ],
+  },
+  {
     id: "sustentabilidad",
     title: "Rediseño web y automatización de procesos",
     client: "cliente del sector sustentabilidad",

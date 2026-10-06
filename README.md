@@ -10,7 +10,7 @@ Personal brand site (portfolio + services) for **Gonzalo Argüello**, full stack
 
 > *La herramienta correcta, no la más compleja.* The right tool, not the most complex one.
 
-The page opens with a scroll-driven journey: three chapters over a full-screen backdrop that responds to scrolling. The content sections follow: services, three portfolio projects told through the decisions behind them, about me, and contact. The site's copy is in Spanish.
+The page opens with a scroll-driven journey: three chapters over a full-screen backdrop that responds to scrolling. The content sections follow: services, four portfolio projects told through the decisions behind them, about me, and contact. The site's copy is in Spanish.
 
 - **Live:** deployed on Vercel from `main`
 - **Planned domain:** `gonzaloarguello.dev`
@@ -83,7 +83,7 @@ Run these from `app/`:
 - **Everything else** (services, portfolio projects, about, contact): `app/src/routes/index.tsx`
 - **Colors, spacing, type:** `app/src/site.css`. Keep raw hex colors out of `src/routes/`, or the build's UI check fails.
 - **Page title, description and share image:** `app/src/app-meta.json`
-- **Project images:** `app/public/assets/projects/`, referenced from each project's `image` in `index.tsx`. Each one is a 1200×795 JPEG showing the live site on a laptop and a phone. The sustentabilidad case has no image on purpose, because it would identify the employer.
+- **Project images:** `app/public/assets/projects/`, referenced from each project's `image` in `index.tsx`. Each one is a 1200×795 JPEG showing the live site on a laptop and a phone. The two cases from Gonzalo's current job (discount codes and sustentabilidad) have no image on purpose, because a screenshot would identify the client or employer.
 
 ### Brand
 
@@ -143,7 +143,7 @@ Sitio de marca personal (portfolio + servicios) de **Gonzalo Argüello**, desarr
 
 > *La herramienta correcta, no la más compleja.*
 
-La página arranca con un recorrido guiado por el scroll: tres capítulos sobre un fondo a pantalla completa que responde al desplazamiento. Después vienen las secciones de contenido: servicios, tres proyectos de portfolio contados a partir de las decisiones que se tomaron, sobre mí y contacto.
+La página arranca con un recorrido guiado por el scroll: tres capítulos sobre un fondo a pantalla completa que responde al desplazamiento. Después vienen las secciones de contenido: servicios, cuatro proyectos de portfolio contados a partir de las decisiones que se tomaron, sobre mí y contacto.
 
 - **En vivo:** publicado en Vercel desde `main`
 - **Dominio previsto:** `gonzaloarguello.dev`
@@ -216,7 +216,7 @@ Se corren desde `app/`:
 - **Todo lo demás** (servicios, proyectos de portfolio, sobre mí, contacto): `app/src/routes/index.tsx`
 - **Colores, espaciado, tipografía:** `app/src/site.css`. No pongas colores hex directamente en `src/routes/`, porque falla el chequeo de UI del build.
 - **Título, descripción e imagen para compartir:** `app/src/app-meta.json`
-- **Imágenes de los proyectos:** `app/public/assets/projects/`, referenciadas desde el `image` de cada proyecto en `index.tsx`. Cada una es un JPEG de 1200×795 con el sitio en vivo en una computadora y un celular. El caso de sustentabilidad no tiene imagen a propósito, porque identificaría al empleador.
+- **Imágenes de los proyectos:** `app/public/assets/projects/`, referenciadas desde el `image` de cada proyecto en `index.tsx`. Cada una es un JPEG de 1200×795 con el sitio en vivo en una computadora y un celular. Los dos casos del trabajo actual de Gonzalo (códigos de descuento y sustentabilidad) no tienen imagen a propósito, porque una captura identificaría al cliente o al empleador.
 
 ### Marca
 

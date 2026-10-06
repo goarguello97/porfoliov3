@@ -43,6 +43,7 @@ The in-repo template contract is below. Follow it: don't rewrite the scroll engi
 - **Copy rules:**
   - Don't invent results, numbers, clients or testimonials.
   - Projects live in the `projects` array in `index.tsx`. Willy Pesca and Entre Migas are named publicly with live and code links, and their facts come from their GitHub READMEs. A `dropped` option only appears where the alternative was really weighed; otherwise use `pickedNote`. A project's optional `image` renders beside the summary on desktop and under the title on phones, and it links to the live site.
+  - The discount-code case (`canje-codigos`) was built at the owner's current job for a client: label it only "cliente importante del rubro sushi" (never the name), with no image, no links and no implementation details beyond what the owner shared. The facts: the owner designed and built it alone, proposed custom full stack vs Google Forms + Sheets, and the client chose Forms + Sheets for cost.
   - The sustentabilidad case comes from the owner's **current employer**. Keep it anonymous ("cliente del sector sustentabilidad", "una empresa del sector sustentabilidad"). The owner still has to confirm with the employer that it can be shown. It has **no image** on purpose, because a screenshot would identify the employer.
   - The site's central idea: "La herramienta correcta, no la más compleja."
 - **No Higgsfield branding** in page content or meta. `author` is the owner and `twitter:site @Higgsfield` was removed.
@@ -108,7 +109,7 @@ cd app && VERCEL=1 bun run build             # Vercel: .vercel/output
 
 - [ ] Register `gonzaloarguello.dev` (optionally `.io` as a defensive redirect).
 - [x] Real contact email: `arguellogonzalo97@gmail.com`, a plain `mailto:`. If `gonzaloarguello.dev` gets registered, the owner may want a mailbox on it.
-- [x] Add more portfolio cases. Willy Pesca y Camping and Entre Migas were added in Oct 2026, three cases in total.
+- [x] Add more portfolio cases. Willy Pesca y Camping and Entre Migas were added in Oct 2026, then the anonymous discount-code system: four cases in total.
 - [ ] Add a real LinkedIn link. GitHub (`github.com/goarguello97`) is already linked below the projects; LinkedIn has no confirmed URL yet.
 - [ ] Confirm with the employer that the current case can be used.
 - [ ] Consider a real contact form (needs a backend or a service like Formspree).
