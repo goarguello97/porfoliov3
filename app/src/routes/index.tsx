@@ -151,23 +151,17 @@ const projects: Project[] = [
   },
   {
     id: "sustentabilidad",
-    title: "Rediseño web y automatización de procesos",
+    // Internal processes are left out on purpose (owner's request).
+    title: "Rediseño web",
     client: "cliente del sector sustentabilidad",
-    summary:
-      "Un sitio en Wix que necesitaba más de lo que permitía el editor, y procesos internos que había que ordenar.",
-    stack: ["wix + html propio", "google forms", "google sheets"],
+    summary: "Un sitio en Wix que necesitaba más de lo que permitía el editor.",
+    stack: ["wix + html propio"],
     decisions: [
       {
         question: "¿Cómo rediseñar las secciones clave del sitio?",
         why: "El editor visual limitaba el diseño y la funcionalidad. Sumé HTML propio dentro de Wix, sin migrar todo el sitio.",
         dropped: "Solo el editor visual de Wix",
         picked: "Wix con HTML propio",
-      },
-      {
-        question: "¿Qué procesos internos necesitan software a medida?",
-        why: "Analicé cada proceso por separado. Donde Google Forms y Sheets resolvían la necesidad de forma más eficiente, implementé esa alternativa.",
-        dropped: "Software a medida para todo",
-        picked: "Forms + Sheets donde alcanza",
       },
     ],
   },
@@ -344,9 +338,8 @@ function Index() {
               </p>
               <p>
                 Hoy trabajo como desarrollador y diseñador web en una empresa del sector
-                sustentabilidad. Rediseño secciones de su sitio y, para cada necesidad del
-                negocio, evalúo si conviene una solución a medida o una alternativa más ágil
-                como Google Forms y Sheets.
+                sustentabilidad, donde rediseño secciones de su sitio y desarrollo soluciones
+                para sus clientes.
               </p>
               <p>
                 Mi enfoque es encontrar la solución técnica adecuada para cada problema y
